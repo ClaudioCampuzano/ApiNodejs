@@ -30,13 +30,13 @@ app.use(router);
 var tvshows = express.Router();
 
 tvshows.route('/tvshows')
-  .get(TVShowCtrl.findAllTVShows)
-  .post(TVShowCtrl.addTVShow);
+  .get(TVShowCtrl.findAll)
+  .post(TVShowCtrl.add);
 
 tvshows.route('/tvshows/:id')
   .get(TVShowCtrl.findById)
-  .put(TVShowCtrl.updateTVShow)
-  .delete(TVShowCtrl.deleteTVShow);
+  .put(TVShowCtrl.update)
+  .delete(TVShowCtrl.delete);
 
 app.use('/api', tvshows);
 

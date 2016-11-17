@@ -3,12 +3,12 @@ var mongoose = require('mongoose');
 var TVShow  = mongoose.model('TVShow');
 
 //GET - Return all tvshows in the DB
-exports.findAllTVShows = function(req, res) {
+exports.findAll = function(req, res) {
 	TVShow.find(function(err, tvshows) {
     if(err) res.send(500, err.message);
 
     console.log('GET /tvshows')
-		res.status(200).jsonp(tvshows);
+	res.status(200).jsonp(tvshows);
 	});
 };
 
@@ -23,7 +23,7 @@ exports.findById = function(req, res) {
 };
 
 //POST - Insert a new TVShow in the DB
-exports.addTVShow = function(req, res) {
+exports.add = function(req, res) {
 	console.log('POST');
 	console.log(req.body);
 
@@ -39,7 +39,7 @@ exports.addTVShow = function(req, res) {
 };
 
 //PUT - Update a register already exists
-exports.updateTVShow = function(req, res) {
+exports.update = function(req, res) {
 	TVShow.findById(req.params.id, function(err, tvshow) {
 		tvshow.title   = req.body.petId;
 		tvshow.genre   = req.body.genre;
@@ -51,11 +51,11 @@ exports.updateTVShow = function(req, res) {
 };
 
 //DELETE - Delete a TVShow with specified ID
-exports.deleteTVShow = function(req, res) {
+exports.delete = function(req, res) {
 	TVShow.findById(req.params.id, function(err, tvshow) {
 		tvshow.remove(function(err) {
 			if(err) return res.send(500, err.message);
-      res.status(200);
-		})
+      res.json({ message: 'Successfully deleted' });
+		});
 	});
 };
