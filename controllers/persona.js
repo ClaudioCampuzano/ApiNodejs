@@ -1,4 +1,3 @@
-//File: controllers/tvshows.js
 var mongoose = require('mongoose');
 var Persona  = mongoose.model('Persona');
 
