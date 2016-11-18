@@ -1,13 +1,13 @@
-var express         = require("express"),
-    app             = express(),
-    bodyParser      = require("body-parser"),
-    methodOverride  = require("method-override"),
-    mongoose        = require('mongoose');
+var express         = require("express");
+var bodyParser      = require("body-parser");
+var mongoose        = require('mongoose');
+var methodOverride  = require("method-override");
+var app             = express();
 
-// Connection to DB
-mongoose.connect('mongodb://localhost/tvshows', function(err, res) {
+// Coneccion a la BD
+mongoose.connect('mongodb://localhost/personas', function(err, res) {
   if(err) throw err;
-  console.log('Connected to Database');
+  console.log('Conectado a la BD');
 });
 
 // Middlewares
@@ -15,30 +15,32 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(methodOverride());
 
-// Import Models and controllers
-var models     = require('./models/tvshow')(app, mongoose);
-var TVShowCtrl = require('./controllers/tvshows');
+// Importando modelos y controladores
+var models     = require('./models/persona')(app, mongoose);
+var PersonaCtrl = require('./controllers/persona');
 
-// Example Route
+
 var router = express.Router();
+
+//Index -route
 router.get('/', function(req, res) {
-  res.send("Hello world!");
+  res.send("Hola mundo");
 });
 app.use(router);
 
 // API routes
-var tvshows = express.Router();
+var api = express.Router();
 
-tvshows.route('/tvshows')
-  .get(TVShowCtrl.findAll)
-  .post(TVShowCtrl.add);
+api.route('/personas')
+  .get(PersonaCtrl.findAll)
+  .post(PersonaCtrl.add);
 
-tvshows.route('/tvshows/:id')
-  .get(TVShowCtrl.findById)
-  .put(TVShowCtrl.update)
-  .delete(TVShowCtrl.delete);
+api.route('/personas/:id')
+  .get(PersonaCtrl.findById)
+  .put(PersonaCtrl.update)
+  .delete(PersonaCtrl.delete);
 
-app.use('/api', tvshows);
+app.use('/api', api);
 
 // Start server
 app.listen(3000, function() {
